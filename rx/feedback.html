@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<body>
+  <style>
+    body {
+      font-family: Arial;
+    }
+    #element {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+    }
+
+  </style>
+  <div id="element"></div>
+  <div id="content">
+    <h3>RxJS Example 1</h3>
+    <p>Click anywhere to move the red square.</p>
+    <p>Because the square position is not stored anywhere I create a
+subject that I multicast square position to
+so it can be used to generate a new path.
+I have not found a better way of doing this yet.</p>
+  </div>
+  <script src="../libs/rx.all.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/rxjs-dom/2.0.7/rx.dom.js"></script>
+  <script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
+  <script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
+
+  <script type="module">
+
+    var initialPosition = {x: 100, y: 300},
+        element = document.getElementById('element'),
+        subject_ = new Rx.BehaviorSubject(initialPosition),
+        position_, move_
+
+    function distance(start, end) {
+      return Math.sqrt(Math.pow(start.x - end.x, 2) + Math.pow(start.y - end.y, 2))
+    }
+
+    function interpolate(start, end, step) {
+      return {
+        x: start.x + ((end.x - start.x) * step),
+        y: start.y + ((end.y - start.y) * step)
+      }
+    }
+
+    function* path(start, end, speed) {
+      var i = 0
+      while(i < 1) {
+        yield interpolate(start, end, i)
+        i += speed
+      }
+    }
+
+    move_ = Rx.DOM.fromEvent(document, 'click')
+
+    position_ = move_
+      .combineLatest(subject_, (move, position) => ({
+        from: position,
+        to: move
+      }))
+      .sample(move_)
+      .flatMapLatest(p => Rx.Observable.from(path(p.from, p.to, 5 / distance(p.from, p.to)))
+                            .concatMap(p => Rx.Observable.return(p).delay(1000 / 60)))
+      .multicast(subject_)
+
+    position_.connect()
+
+    position_.subscribe(p => {
+      element.style.left = p.x + 'px'
+      element.style.top = p.y + 'px'
+    })
+
+  </script>
+</body>
+</html>
