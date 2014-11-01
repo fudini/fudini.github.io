@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<body>
+  <style>
+    body {
+      font-family: Arial;
+    }
+
+    #vision div {
+      padding: 10px;
+      float: left;
+      margin-right: 10px;
+    }
+    #one, #two {
+      background-color: #e0e0e0;
+    }
+
+    #result {
+      background-color: #e0ffe0;
+    }
+
+  </style>
+  <div id="content">
+    <h3>RxJS - Streams of streams.</h3>
+    <p>Hold mouse button down to switch the source to stream 2.</p>
+    <div id="vision">
+      <div id="one"></div>
+      <div id="two"></div>
+      <div id="result"></div>
+    </div>
+  </div>
+  <script src="../libs/rx.all.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/rxjs-dom/2.0.7/rx.dom.js"></script>
+  <script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
+  <script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
+
+  <script type="module">
+    var oneElement = document.getElementById('one')
+    var twoElement = document.getElementById('two')
+    var resultElement = document.getElementById('result')
+
+    var one_ = Rx.Observable.interval(100)
+      .map(x => 'one:' + x)
+      .publish() // heat it up
+    one_.connect()
+
+    var two_ = Rx.Observable.interval(200)
+      .map(x => 'two:' + x)
+      .publish() // heat it up
+    two_.connect()
+
+    var mouseDown_ = Rx.DOM.fromEvent(document, 'mousedown')
+                           .map(e => two_)
+
+    var mouseUp_ = Rx.DOM.fromEvent(document, 'mouseup')
+                         .map(e => one_)
+
+    var result_ = mouseDown_.merge(mouseUp_)
+                            .startWith(one_)
+                            .flatMapLatest(stream => stream)
+
+    one_.subscribe(v => oneElement.innerHTML = v)
+    two_.subscribe(v => twoElement.innerHTML = v)
+    result_.subscribe(v => resultElement.innerHTML = v)
+
+  </script>
+</body>
+</html>
