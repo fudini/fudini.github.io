@@ -158,7 +158,7 @@
 
     var step = (dt, keys) => compose(jump(keys), gravity(dt), walk(keys), physics(dt))
 
-    var delta_ = fps(25).map(t => t / 20)
+    var delta_ = fps(60).map(t => t / 20)
     var input_ = delta_.combineLatest(arrows_, (dt, keys) => ({dt, keys}))
                        .sample(delta_)
 
