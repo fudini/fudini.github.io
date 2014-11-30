@@ -2,6 +2,8 @@ body {
   font-family: Arial;
   font-size: 14px;
   color: #555;
+  padding: 20px;
+  margin: 0;
 }
 
 nav ul {
