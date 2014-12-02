@@ -51,8 +51,7 @@
     // Elm's fps
     var fps = v => new Rx.Observable.interval(1000 / v)
                                     .timestamp()
-                                    .windowWithCount(2, 1)
-                                    .flatMap(w => w.toArray())
+                                    .bufferWithCount(2, 1)
                                     .map(w => w[1].timestamp - w[0].timestamp)
                                     .share()
 
