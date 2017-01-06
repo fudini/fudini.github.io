@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Agaves</title>
+		<link rel="stylesheet" media="screen" href="bin/assets/styles.css" />
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script type="text/javascript" src="bin/lib/Box2D.js"></script>
+		<script type="text/javascript" src="bin/lib/Class.js"></script>
+		<script type="text/javascript" src="bin/agaves_v2.js"></script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="gameWrapper">
+				<div id="interfaceWrapper">
+					<div class="interface" id="mainMenu">
+						<div id="logo">Agaves</div>
+						<div id="levels">
+							<div class="buttonLoadLevel" id="level_1">1</div>
+							<div class="buttonLoadLevel" id="level_2">2</div>
+							<div class="buttonLoadLevel" id="level_3">3</div>
+							<div class="buttonLoadLevel" id="level_4">4</div>
+							<div class="clear"></div>
+							<div class="buttonLoadLevel locked" id="level_5">5</div>
+							<div class="buttonLoadLevel locked" id="level_6">6</div>
+							<div class="buttonLoadLevel locked" id="level_7">7</div>
+							<div class="buttonLoadLevel locked" id="level_8">8</div>
+						</div>
+						<div id="help">A &amp; D - move<br />L - jump<br />K - shoot</div>
+					</div>
+					<div class="interface back center" id="playerDead">
+						<div class="center">
+							<div class="message">Be careful next time!</div>
+							<div class="gameButton" id="buttonPlayerDeadPlay">Restart</div>
+						</div>
+					</div>
+					<div class="interface back center" id="escapeMenu">
+						<div class="message">Menu</div>
+						<div class="gameButton" id="buttonExit">Exit</div>
+						<div class="gameButton" id="buttonResume">Resume</div>
+						<div class="gameButton" id="buttonRestart">Restart level</div>
+					</div>
+					<div class="interface back center" id="gamePaused">
+						<div class="message">Paused</div>
+						<div class="gameButton" id="buttonPauseResume">Resume game</div>
+					</div>
+					<div class="interface center" id="loadingLevel">
+						<div class="message">Loading level...</div>
+					</div>
+					<div class="interface center" id="levelIntro">
+						<div class="message">Level title</div>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+						<div class="clear"></div>
+						<div class="gameButton" id="buttonStartLevel">Play</div>
+					</div>
+					<div class="interface back center" id="nextLevel">
+						<div class="message">Congratulations!</div>
+						<div class="gameButton" id="buttonNextLevel">Next Level</div>
+					</div>
+					<div class="interface back center" id="theEnd">
+						<div class="message">The end!</div>
+						<div class="gameButton" id="buttonTheEnd">Main menu</div>
+					</div>
+				</div>
+				<div id="containerWrapper">
+					<div id="container"></div>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<div id="gameInfo"><a href="index.html">requestAnimationFrame version</a></div>
+			<!-- <audio id="tune" src="agaves/assets/sound/tune.mp3" autoplay="true" loop="loop"></audio> -->
+			<!-- <audio id="shoot" preload="auto" src="agaves/assets/sound/shot.mp3"></audio> -->
+			<script type="text/javascript">
+				// var shoot;
+				$(function() {
+					// shoot = $('#shoot')[0];
+					// $('#tune')[0].volume = 0.5;
+					var container = $('#container')[0];
+					Agaves.start("bin/", container);
+				});
+				var _gaq = _gaq || [];
+				_gaq.push(['_setAccount', 'UA-4134625-6']);
+				_gaq.push(['_trackPageview']);
+				(function() {
+					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				})();
+			</script>
+		</div><!-- end of #wrapper -->
+	</body>
+</html>
